@@ -22,6 +22,7 @@ const userSchema = Schema(
 			type: String,
 			default: null,
 		},
+		avatarURL: String,
 	},
 	{ versionKey: false, timestamps: true },
 );
@@ -46,6 +47,7 @@ userSchema.methods.createToken = function () {
 const joiSchema = Joi.object({
 	email: Joi.string().required(),
 	password: Joi.string().min(6).required(),
+	// avatarURL: Joi.string(),
 });
 
 const updateUserSubscription = Joi.object({
