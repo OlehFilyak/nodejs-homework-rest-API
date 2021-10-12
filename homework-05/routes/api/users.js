@@ -39,11 +39,13 @@ router.patch(
 	controllerWrapper(ctrl.updateUserSubscription),
 );
 
-router.post(
-	'/addAvatar',
-	// authenticate,
+router.patch(
+	'/avatars',
+	authenticate,
 	uploadMiddleware.single('avatarImg'),
 	controllerWrapper(ctrl.addUserAvatar),
 );
+
+// router.patch('avatars', authenticate, controllerWrapper(ctrl.addUserAvatar));
 
 module.exports = router;
