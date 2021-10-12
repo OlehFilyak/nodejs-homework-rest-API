@@ -1,10 +1,12 @@
 const path = require('path');
 const { nanoid } = require('nanoid');
 const fs = require('fs/promises');
+const Jimp = require('jimp');
+
 const { sendSuccessRes } = require('../../utils');
 const { User } = require('../../models/users');
 
-const userAvatars = [];
+// const userAvatars = [];
 
 const uploadDir = path.join(__dirname, '..', '..', 'public');
 // console.log(tempDir);
@@ -22,15 +24,28 @@ const addUserAvatar = async (req, res, _next) => {
 	// console.log(originalname);
 	// console.log(tempName);
 	const fileName = path.join(uploadDir, 'avatars', originalname); // повне нове ім'я файлу
+	const filePathToFolder = path.join(uploadDir, 'avatars');
 	try {
 		await fs.rename(tempName, fileName); // переміщення файлу
 		const localImagePath = path.join('/public/avatars', originalname);
+		const [, expandingFile] = originalname.split('.');
 		const newUserAvatar = {
 			...req.body,
 			id: nanoid(),
 			localImagePath,
 		};
-		userAvatars.push(newUserAvatar);
+		try {
+			Jimp.read(fileName, (err, avatar) => {
+				if (err) throw err;
+				avatar
+					.resize(250, 250) // resize
+					.write(`${filePathToFolder}/avatar-${nanoid()}.${expandingFile}`); // save
+			});
+		} catch (err) {
+			if (err) throw err;
+			console.log(err.message);
+		}
+
 		let currentUser = await User.findOneAndUpdate(
 			{ token: usertoken },
 			{ avatarURL: newUserAvatar.localImagePath },
