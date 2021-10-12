@@ -4,6 +4,7 @@ const {
 	controllerWrapper,
 	validation,
 	authenticate,
+	uploadMiddleware,
 } = require('../../middlewares');
 const { users: ctrl } = require('../../controllers/users');
 const { joiSchema } = require('../../models/users/authSchema');
@@ -36,6 +37,13 @@ router.patch(
 	authenticate,
 	validation(updateUserSubscription),
 	controllerWrapper(ctrl.updateUserSubscription),
+);
+
+router.post(
+	'/addAvatar',
+	// authenticate,
+	uploadMiddleware.single('avatarImg'),
+	controllerWrapper(ctrl.addUserAvatar),
 );
 
 module.exports = router;
