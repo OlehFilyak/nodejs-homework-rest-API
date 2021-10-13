@@ -1,8 +1,9 @@
 const { Conflict } = require('http-errors');
 const gravatar = require('gravatar');
+const { nanoid } = require('nanoid');
 
 // const bcrypt = require('bcryptjs');
-
+const { sendMail } = require('../../utils/');
 const { User } = require('../../models/users');
 
 const signup = async (req, res) => {
@@ -12,7 +13,7 @@ const signup = async (req, res) => {
 		throw new Conflict('Email in use');
 	}
 	const avatarURL = gravatar.url(email);
-	const newUser = new User({ email, avatarURL });
+	const newUser = new User({ email, avatarURL, verifyToken: nanoid() });
 	newUser.setPassword(password);
 	await newUser.save();
 	console.log(newUser);
@@ -26,6 +27,8 @@ const signup = async (req, res) => {
 		responseBody: {
 			email: newUser.email,
 			subscription: newUser.subscription,
+			verifyToken: newUser.verifyToken,
+			verify: newUser.verify,
 		},
 	});
 };
