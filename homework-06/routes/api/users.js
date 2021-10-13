@@ -46,7 +46,8 @@ router.patch(
 	controllerWrapper(ctrl.addUserAvatar),
 );
 
-router.post('/user/verify', controllerWrapper(ctrl.verifyRepeat));
+router.get('/verify/:verifyToken', controllerWrapper(ctrl.verify));
+router.post('/verify', controllerWrapper(ctrl.verifyRepeat));
 
 // router.patch('avatars', authenticate, controllerWrapper(ctrl.addUserAvatar));
 

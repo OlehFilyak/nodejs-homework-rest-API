@@ -5,6 +5,7 @@ const getCurrentUser = require('./getCurrentUser');
 const updateUserSubscription = require('./updateUserSubscription');
 const addUserAvatar = require('./addUserAvatar');
 const verify = require('./verify');
+const verifyRepeat = require('./verifyRepeat');
 
 const users = {
 	login,
@@ -14,6 +15,7 @@ const users = {
 	updateUserSubscription,
 	addUserAvatar,
 	verify,
+	verifyRepeat,
 };
 module.exports = {
 	users,

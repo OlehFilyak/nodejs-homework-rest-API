@@ -58,6 +58,10 @@ const joiSchema = Joi.object({
 	// avatarURL: Joi.string(),
 });
 
+const joiSchemaVerifyRepeat = Joi.object({
+	email: Joi.string().required(),
+});
+
 const updateUserSubscription = Joi.object({
 	subscription: Joi.string().required().valid('starter', 'pro', 'business'),
 });
@@ -68,4 +72,5 @@ module.exports = {
 	User,
 	joiSchema,
 	updateUserSubscription,
+	joiSchemaVerifyRepeat,
 };
