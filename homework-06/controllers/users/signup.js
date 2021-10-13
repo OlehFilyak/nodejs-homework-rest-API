@@ -15,8 +15,16 @@ const signup = async (req, res) => {
 	const avatarURL = gravatar.url(email);
 	const newUser = new User({ email, avatarURL, verifyToken: nanoid() });
 	newUser.setPassword(password);
+
 	await newUser.save();
-	console.log(newUser);
+	const { verifyToken } = newUser;
+	const data = {
+		to: email,
+		subject: 'Підтвердження реєстрації на сайті',
+		html: `<a href= "http://localhost:3000/api/users/verify/${verifyToken}">Підтвердження реєстрації на сайті</a>`,
+	};
+	await sendMail(data);
+	// console.log(newUser);
 	// const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 	// const newUser = { email, password: hashPassword };
 	// const result = await User.create(newUser);

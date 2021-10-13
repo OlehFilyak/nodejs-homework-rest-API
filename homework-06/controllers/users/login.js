@@ -12,6 +12,9 @@ const login = async (req, res) => {
 	if (!user || !user.comparePassword(password)) {
 		throw new BadRequest('Email or password is wrong');
 	}
+	if (user.verify) {
+		throw new NotFound('Такого користувача не має');
+	}
 	// if (!user) {
 	// 	throw new NotFound(`Email ${email} not found`);
 	// res.status(404).json({

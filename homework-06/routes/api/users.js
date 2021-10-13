@@ -46,6 +46,8 @@ router.patch(
 	controllerWrapper(ctrl.addUserAvatar),
 );
 
+router.post('/user/verify', controllerWrapper(ctrl.verifyRepeat));
+
 // router.patch('avatars', authenticate, controllerWrapper(ctrl.addUserAvatar));
 
 module.exports = router;
